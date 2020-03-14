@@ -9,7 +9,7 @@ class TestController extends Controller
     //
     public function index(Request $request){
 
-        dd(auth()->guest());
+//        dd(auth()->guest());
 
     }
 }
