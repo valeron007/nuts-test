@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
         $manager->email = 'manager@gmail.com';
         $manager->password = Hash::make('rfk,fcf0702');
         $manager->save();
-
+        $manager->assignRole('manager');
     }
 
 }

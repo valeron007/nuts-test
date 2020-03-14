@@ -18,5 +18,11 @@ class RolesTableSeeder extends Seeder
             ['name' => 'manager', 'guard_name' => 'web'],
             ['name' => 'employee', 'guard_name' => 'web'],
         ]);
+
+        $role = Role::findByName('manager');
+        $role->givePermissionTo(['view proposal', 'edit proposal', 'delete proposal']);
+        $employeeRole = Role::findByName('employee');
+        $employeeRole->givePermissionTo(['create proposal']);
+
     }
 }

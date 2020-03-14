@@ -25,15 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-//        dd(auth()->user());
-        $role = Role::findByName('manager');
-        $permission = Permission::findByName('view proposal');
-        $role->givePermissionTo(['view proposal', 'edit proposal', 'delete proposal']);
+        dd(auth()->user());
 
-//        auth()->user()->givePermissionTo('view proposal');
-        auth()->user()->assignRole('manager');
-//        dd($permission);
-//        dd($role);
         return view('home');
     }
 }
