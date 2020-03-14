@@ -19,6 +19,13 @@ class PermissionTableSeeder extends Seeder
         Permission::create([
             'name' => 'create proposal'
         ]);
+        Permission::create([
+            'name' => 'edit proposal'
+        ]);
+
+        Permission::create([
+            'name' => 'delete proposal'
+        ]);
 
 
     }
