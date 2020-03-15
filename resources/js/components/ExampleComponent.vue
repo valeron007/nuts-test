@@ -12,6 +12,7 @@
             </div>
         </div>
     </div>
+    <proposal-component></proposal-component>
 </template>
 
 <script>

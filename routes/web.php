@@ -17,13 +17,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::get('/', 'TestController@index');
-
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/test', 'TestController@index');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('/proposal/create', 'ProposalController@create')->name('create-proposal');
+
+Route::match(['get', 'post'],'/proposal/delete', 'ProposalController@delete')->name('delete-proposal');
+
+
+
