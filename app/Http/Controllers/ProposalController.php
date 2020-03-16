@@ -18,12 +18,14 @@ class ProposalController extends Controller
     public function create(Request $request){
         try {
             if (auth()->check() && auth()->user()->hasRole('employee')) {
-                dd($request);
+                $path = $request->file('file')->store('proposal');
+                $url = Storage::url($path);
                 $user = auth()->user();
                 $data = json_decode($request->request->get('data'), true);
                 $dateTime = new DateTime();
                 $data['date_create_proposal'] = $dateTime->format('Y-m-d H:i:s');
                 $data['client_id'] = $user->id;
+                $data['url_file'] = $url;
                 $proposal = new Proposal();
                 $proposal->fill($data);
                 $proposal->save();

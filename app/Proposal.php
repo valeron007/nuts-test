@@ -11,6 +11,7 @@ class Proposal extends Model
                             'name','subject',
                             'message', 'email',
                             'date_create_proposal',
-                            'client_id'
+                            'client_id',
+                            'url_file'
                         ];
 }
