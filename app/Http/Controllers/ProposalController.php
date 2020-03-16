@@ -6,7 +6,7 @@ use App\Exceptions\RoleException;
 use DateTime;
 use Illuminate\Http\Request;
 use App\Proposal;
-
+use Illuminate\Support\Facades\Storage;
 
 class ProposalController extends Controller
 {
@@ -16,18 +16,28 @@ class ProposalController extends Controller
     }
 
     public function create(Request $request){
-        if (auth()->check() && auth()->user()->hasRole('employee')){
-            $user = auth()->user();
-            $data = json_decode($request->request->get('data'), true);
-            $dateTime = new DateTime();
-            $data['date_create_proposal'] = $dateTime->format('Y-m-d H:i:s');
-            $data['client_id'] = $user->id;
-            $proposal = new Proposal();
-            $proposal->fill($data);
-            $proposal->save();
-        }else{
-            return view('errors.404')->with('Пользователь не авторизован');
+        try {
+            if (auth()->check() && auth()->user()->hasRole('employee')) {
+                dd($request);
+                $user = auth()->user();
+                $data = json_decode($request->request->get('data'), true);
+                $dateTime = new DateTime();
+                $data['date_create_proposal'] = $dateTime->format('Y-m-d H:i:s');
+                $data['client_id'] = $user->id;
+                $proposal = new Proposal();
+                $proposal->fill($data);
+                $proposal->save();
+            } else {
+                return response()->json(['error' => 'Пользователь не авторизован']);
+            }
+        }catch(\Exception $error){
+            return response()->json([
+                'Error' => $error->getMessage(),
+                'Code'  => $error->getCode(),
+                ]);
         }
+
+        return response()->json(['Complete' => "Заявка успешно добавлена"]);
     }
 
     public function delete(Request $request){

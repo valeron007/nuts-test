@@ -9,9 +9,9 @@ class TestController extends Controller
 {
     //
     public function index(Request $request){
-//        $user = User::where('name', '=', 'manager')->first();
-//        $user->assignRole('manager');
-//        dd($user);
+        if (!auth()->check()){
+            return view('errors.401');
+        }
 
         return view('proposal.index');
     }
