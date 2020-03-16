@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Proposal extends Model
 {
     //
+    protected $check;
+
     protected $fillable = [
                             'name','subject',
                             'message', 'email',
@@ -14,4 +16,9 @@ class Proposal extends Model
                             'client_id',
                             'url_file'
                         ];
+
+    public function checkProposal(){
+
+    }
+
 }
