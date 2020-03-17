@@ -80,16 +80,14 @@
         methods: {
             create: function () {
                 if (this.$refs.form.validate()){
-                    console.log(this.name);
-                    console.log(this.file);
-                    console.log(this.subject);
-                    let formData = new FormData();
-                    formData.append('data', JSON.stringify({
+                    var proposal = {
                         name: this.name,
                         email: this.email,
                         subject: this.subject,
                         message: this.message
-                    }));
+                    };
+                    let formData = new FormData();
+                    formData.append('data', JSON.stringify(proposal));
                     formData.append('file', this.file);
 
                     axios.post('/proposal/create', formData,

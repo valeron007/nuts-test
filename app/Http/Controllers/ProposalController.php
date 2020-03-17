@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 
+use App\Jobs\MailPodcast;
 use Illuminate\Http\Request;
 use App\Proposal;
 use Illuminate\Support\Facades\Storage;
-use function MongoDB\BSON\toJSON;
+use App\Mail\ProposalMail;
+use Illuminate\Support\Facades\Mail;
+
 
 class ProposalController extends Controller
 {
@@ -33,9 +36,13 @@ class ProposalController extends Controller
                 $data['date_create_proposal'] = date("Y-m-d");
                 $data['client_id'] = $user->id;
                 $data['url_file'] = $url;
-                $proposal = new Proposal();
-                $proposal->fill($data);
-                $proposal->save();
+                $data['file'] = $path;
+//                $proposal = new Proposal();
+//                $proposal->fill($data);
+//                $proposal->save();
+                MailPodcast::dispatch($data)->delay(now()->addMinutes(1));
+//                dispatch(new MailPodcast($data));
+//                Mail::to('valeronchik0702@gmail.com', 'to web')->send(new ProposalMail($data));
             } else {
                 return response()->json(['error' => 'Пользователь не авторизован'], 401);
             }

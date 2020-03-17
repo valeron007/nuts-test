@@ -17,8 +17,5 @@ class Proposal extends Model
                             'url_file'
                         ];
 
-    public function checkProposal(){
-
-    }
 
 }

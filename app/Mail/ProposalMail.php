@@ -16,9 +16,13 @@ class ProposalMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+
+    public $data;
+
+    public function __construct($data)
     {
         //
+        $this->data = $data;
     }
 
     /**
@@ -28,8 +32,9 @@ class ProposalMail extends Mailable
      */
     public function build()
     {
-//        return $this->from('valeronchik0702@gmail.com')
-//                ->view('emails.proposal');
-        return $this->view('emails.proposal');
+        return $this->from($this->data['email'])
+                    ->subject('Create proposal')
+                    ->attachFromStorage($this->data['file'])
+                    ->view('emails.proposal');
     }
 }

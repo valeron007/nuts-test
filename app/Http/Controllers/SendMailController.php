@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ProposalMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -9,11 +10,8 @@ use Illuminate\Support\Facades\Mail;
 class SendMailController extends Controller
 {
     //
-    public function index(){
-        Mail::send('emails.proposal', ['name','web'], function ($messsage){
-            $messsage->to('valeronchik0702@gmail.com', 'to web')->subject('Proposal create');
-            $messsage->from('valeronchik0702@gmail.com');
-        });
+    public function index(Request $request){
+
     }
 
 }

@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Route::get('/test', 'TestController@index');
 
-Route::get('/send', 'SendMailController@index');
+Route::post('/send', 'SendMailController@index');
 
 Auth::routes();
 
