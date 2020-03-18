@@ -9,6 +9,7 @@
                         <proposal-component>
 
                         </proposal-component>
+
                     </div>
                 </div>
             </div>

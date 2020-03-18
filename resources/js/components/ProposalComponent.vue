@@ -49,19 +49,44 @@
 
             </v-form>
         </v-app>
+        <div>
+            <v-alert
+                    dense
+                    outlined
+                    type="error"
+                    v-if="isVisibleError"
+            >
+                {{ errors }}
+            </v-alert>
+
+            <v-alert
+                    outlined
+                    type="success"
+                    text
+                    v-if="isVisibleSuccess"
+            >
+                {{ success }}
+            </v-alert>
+        </div>
     </div>
 </template>
 
 <script>
+    import {eventEmitter} from "../app";
+
     export default {
         data() {
             return {
                 valid: false,
+                isVisibleError: false,
+                isVisibleSuccess: false,
                 name: '',
                 file: '',
                 email: '',
                 message: '',
                 subject: '',
+                errors: '',
+                success: '',
                 emailRules: [
                     v => !!v || 'E-mail is required',
                     v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
@@ -77,8 +102,10 @@
                 lazy: false,
             }
         },
+        watch: {
+        },
         methods: {
-            create: function () {
+            create: function (event) {
                 if (this.$refs.form.validate()){
                     var proposal = {
                         name: this.name,
@@ -89,24 +116,35 @@
                     let formData = new FormData();
                     formData.append('data', JSON.stringify(proposal));
                     formData.append('file', this.file);
-
+                    let that = this;
                     axios.post('/proposal/create', formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(function (response) {
-                        console.log('success');
-                        console.log(response);
+                        that.success = response;
+                        that.isVisibleSuccess = true;
+
                     }).catch(function (error) {
-                        console.log('error');
-                        console.log(error);
-                    })
+                        that.errors = error;
+                        that.isVisibleError = true;
+                    });
                 }
             },
             reset () {
-                this.$refs.form.reset()
+                this.name = '';
+                this.file = '';
+                this.email = '';
+                this.message = '';
+                this.subject = '';
             },
+            showError () {
+                eventEmitter.$emit('showError')
+            },
+            showSucces () {
+                eventEmitter.$emit('showSuccess')
+            }
 
         }
     }

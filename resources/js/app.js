@@ -22,6 +22,8 @@ window.Vue = require('vue');
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 Vue.component('proposal-component', require('./components/ProposalComponent').default);
+Vue.component('error-component', require('./components/ErrorComponent').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -29,19 +31,19 @@ Vue.component('proposal-component', require('./components/ProposalComponent').de
  */
 
 import ProposalComponent from './components/ProposalComponent'
+
+
 import Vuetify from 'vuetify';
 
-// const app = new Vue({
-//     el: '#app'
-// });
 Vue.use(Vuetify);
+
+export const eventEmitter = new Vue();
 
 const app = new Vue({
     el: '#proposal',
     vuetify: new Vuetify(),
     data() {
         return {
-            name: 'Valeron'
         }
     },
     components: {

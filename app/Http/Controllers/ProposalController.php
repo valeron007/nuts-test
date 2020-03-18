@@ -28,7 +28,7 @@ class ProposalController extends Controller
 
 
                 if (!empty($check_proposal)){
-                    return response()->json(['error' => 'Заявка оставляется раз в сутки'], 500);
+                    return response()->json(['error' => 'Заявка оставляется раз в сутки']);
                 }
                 $data = json_decode($request->request->get('data'), true);
                 $path = $request->file('file')->store('proposal');
@@ -37,12 +37,10 @@ class ProposalController extends Controller
                 $data['client_id'] = $user->id;
                 $data['url_file'] = $url;
                 $data['file'] = $path;
-//                $proposal = new Proposal();
-//                $proposal->fill($data);
-//                $proposal->save();
+                $proposal = new Proposal();
+                $proposal->fill($data);
+                $proposal->save();
                 MailPodcast::dispatch($data)->delay(now()->addMinutes(1));
-//                dispatch(new MailPodcast($data));
-//                Mail::to('valeronchik0702@gmail.com', 'to web')->send(new ProposalMail($data));
             } else {
                 return response()->json(['error' => 'Пользователь не авторизован'], 401);
             }
