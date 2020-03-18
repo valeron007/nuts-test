@@ -7,14 +7,24 @@ use App\Jobs\MailPodcast;
 use Illuminate\Http\Request;
 use App\Proposal;
 use Illuminate\Support\Facades\Storage;
-use App\Mail\ProposalMail;
-use Illuminate\Support\Facades\Mail;
 
 
 class ProposalController extends Controller
 {
     //
     public function index(Request $request){
+        if (!auth()->check()){
+            throw new \Exception("Пользователь не авторизован", 401);
+        }
+
+        return view('proposal.index');
+    }
+
+    public function show(Request $request){
+        $proposals = Proposal::all()->toArray();
+
+        dd($proposals);
+
 
     }
 

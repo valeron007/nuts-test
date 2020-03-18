@@ -22,7 +22,7 @@ window.Vue = require('vue');
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 Vue.component('proposal-component', require('./components/ProposalComponent').default);
-Vue.component('error-component', require('./components/ErrorComponent').default);
+Vue.component('list-component', require('./components/ListProposal').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -31,6 +31,7 @@ Vue.component('error-component', require('./components/ErrorComponent').default)
  */
 
 import ProposalComponent from './components/ProposalComponent'
+import ListComponent from './components/ListProposal'
 
 
 import Vuetify from 'vuetify';
@@ -51,3 +52,15 @@ const app = new Vue({
     }
 })
 
+var list = new Vue({
+    el: '#list-proposal',
+    vuetify: new Vuetify(),
+    data() {
+        return {
+
+        }
+    },
+    components: {
+        ListComponent
+    }
+})

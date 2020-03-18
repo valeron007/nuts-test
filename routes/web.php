@@ -17,11 +17,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', 'TestController@index');
+Route::get('/proposal', 'ProposalController@index')->name('proposal');
 
-Route::post('/send', 'SendMailController@index');
+Route::match(['get', 'post'],'/proposal/list', 'ProposalController@show')->name('list-proposal');
+
 
 Auth::routes();
+
+Route::get('/list', 'HomeController@show')->name('show-list');
 
 Route::get('/home', 'HomeController@index')->name('home');
 

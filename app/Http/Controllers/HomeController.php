@@ -25,8 +25,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-//        dd(auth()->user());
+        if (auth()->user()->hasRole('employee')){
+            return redirect()->route('proposal');
+        }else if(auth()->user()->hasRole('manager')){
+            return redirect()->route('list-proposal');
+        }
 
         return view('home');
     }
+
+    public function show(){
+        return view('proposal.list');
+    }
+
 }
