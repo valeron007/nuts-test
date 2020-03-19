@@ -17,18 +17,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/proposal', 'ProposalController@index')->name('proposal');
+Route::get('/proposal', 'ProposalController@index')->name('proposal')->middleware('role:employee');
 
-Route::match(['get', 'post'],'/proposal/list', 'ProposalController@show')->name('list-proposal');
-
+Route::post('/proposal/list', 'ProposalController@show')->name('list-proposal');
 
 Auth::routes();
 
-Route::get('/list', 'HomeController@show')->name('show-list');
+Route::get('/list', 'HomeController@show')->name('show-list')->middleware('role:manager');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::post('/proposal/create', 'ProposalController@create')->name('create-proposal');
+Route::post('/proposal/create', 'ProposalController@create')->name('create-proposal')->middleware('role:employee');
+
+Route::post('/proposal/update', 'ProposalController@update')->name('update-proposal')->middleware('role:manager');
+
 
 Route::match(['get', 'post'],'/proposal/delete', 'ProposalController@delete')->name('delete-proposal');
 

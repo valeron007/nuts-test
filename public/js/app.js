@@ -1914,17 +1914,65 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ListProposal",
   data: function data() {
     return {
-      proposal: []
+      proposals: []
     };
   },
-  methods: {},
+  methods: {
+    checkMark: function checkMark(event) {
+      if (!event.target.checked) {
+        return;
+      }
+
+      var index = event.path[2].getAttribute('data-index');
+      axios.post('/proposal/update', this.proposals[index]).then(function (response) {
+        that.proposals = response.data.slice();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  },
   beforeCreate: function beforeCreate() {
+    var that = this;
     axios.post('/proposal/list').then(function (response) {
-      console.log(response);
+      that.proposals = response.data.slice();
     })["catch"](function (error) {
       console.log(error);
     });
@@ -37463,15 +37511,77 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { attrs: { id: "list-proposal" } }, [
+    _c("h1", [_vm._v("Список заявок")]),
+    _vm._v(" "),
+    _c("table", { staticClass: "table" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.proposals, function(proposal, index) {
+          return _c(
+            "tr",
+            { attrs: { "data-id": "" + proposal.id, "data-index": index } },
+            [
+              _c("th", [_vm._v(_vm._s(index + 1))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(proposal.subject))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(proposal.message))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(proposal.name))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(proposal.email))]),
+              _vm._v(" "),
+              _c("td", [
+                _c(
+                  "a",
+                  { attrs: { href: "" + proposal.url_file, target: "_blank" } },
+                  [_vm._v("Download document")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(proposal.data_create_proposal))]),
+              _vm._v(" "),
+              _c("td", [
+                _c("input", {
+                  attrs: { type: "checkbox", id: "mark" },
+                  domProps: { checked: proposal.mark },
+                  on: { click: _vm.checkMark }
+                })
+              ])
+            ]
+          )
+        }),
+        0
+      )
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "list-proposal" } }, [
-      _c("h1", [_vm._v("List")])
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("№")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Subject")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Message")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Email")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Url file")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Data create")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Mark")])
+      ])
     ])
   }
 ]
@@ -37623,7 +37733,7 @@ var render = function() {
             ? _c(
                 "v-alert",
                 { attrs: { outlined: "", type: "success", text: "" } },
-                [_vm._v("\n            " + _vm._s(_vm.success) + "\n        ")]
+                [_vm._v("\n            Заявка Добавлена\n        ")]
               )
             : _vm._e()
         ],

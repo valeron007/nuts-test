@@ -65,7 +65,7 @@
                     text
                     v-if="isVisibleSuccess"
             >
-                {{ success }}
+                Заявка Добавлена
             </v-alert>
         </div>
     </div>

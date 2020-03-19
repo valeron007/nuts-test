@@ -11,7 +11,11 @@ use Illuminate\Support\Facades\Storage;
 
 class ProposalController extends Controller
 {
-    //
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
+     */
     public function index(Request $request){
         if (!auth()->check()){
             throw new \Exception("Пользователь не авторизован", 401);
@@ -20,14 +24,20 @@ class ProposalController extends Controller
         return view('proposal.index');
     }
 
+    /**
+     * @param Request $request
+     * @return false|string
+     */
     public function show(Request $request){
         $proposals = Proposal::all()->toArray();
 
-        dd($proposals);
-
-
+        return json_encode($proposals);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function create(Request $request){
         try {
             if (auth()->check() && auth()->user()->hasRole('employee')) {
@@ -40,9 +50,11 @@ class ProposalController extends Controller
                 if (!empty($check_proposal)){
                     return response()->json(['error' => 'Заявка оставляется раз в сутки']);
                 }
+
                 $data = json_decode($request->request->get('data'), true);
-                $path = $request->file('file')->store('proposal');
-                $url = Storage::url($path);
+                $path = $request->file('file')->store('public');
+                $url = asset('storage/'.basename($path));
+
                 $data['date_create_proposal'] = date("Y-m-d");
                 $data['client_id'] = $user->id;
                 $data['url_file'] = $url;
@@ -68,8 +80,20 @@ class ProposalController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request){
+        try{
+            $proposal = Proposal::where('id', '=', $request->id)->first();
+            $proposal->mark = !$request->mark;
+            $proposal->save();
 
+        }catch (\Exception $e){
+            return response()->json(['error' => $e->getMessage()]);
+        }
+        return response()->json(['success' => 'Успешно']);
     }
 
 }

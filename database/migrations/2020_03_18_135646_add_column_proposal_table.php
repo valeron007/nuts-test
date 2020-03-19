@@ -15,7 +15,7 @@ class AddColumnProposalTable extends Migration
     {
         //
         Schema::table('proposals', function (Blueprint $table) {
-            $table->boolean('mark');
+            $table->boolean('mark')->default(false);
         });
     }
 
