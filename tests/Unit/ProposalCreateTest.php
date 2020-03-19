@@ -9,6 +9,7 @@ use Faker\Factory as Faker;
 
 class ProposalCreateTest extends TestCase
 {
+
     /**
      * A basic unit test example.
      *
